@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h1= title
+  //p #{result.title}
+  ul
+    each element in result
+        li 
+            a(href= " " + element._id) #{element.title}
+                | #{' '}
+    

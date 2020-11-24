@@ -3,9 +3,28 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const mongoose = require('mongoose');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var messagesRouter = require('./routes/messages');
+
+const port = 3000;
+const hostname = 'localhost';
+//const Messages = require('./models/messages'); 
+const url = 'mongodb://localhost:27017/messagedb'; 
+const options = {
+  useNewUrlParser: true, 
+  useUnifiedTopology: true, 
+  useCreateIndex: true, 
+  useFindAndModify: false, 
+  autoIndex: false,
+  poolSize: 10,  
+  serverSelectionTimeoutMS: 5000, 
+  socketTimeoutMS: 45000,  
+  family: 4 
+};
+var connect = mongoose.connect(url, options);
 
 var app = express();
 
@@ -21,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/messages', messagesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
