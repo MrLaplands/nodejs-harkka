@@ -1,8 +1,9 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+
+.border-bottom {
+ border-color: #212121;
 }
 
-a {
-  color: #00B7FF;
+.form-control {
+  color: #fff;
 }

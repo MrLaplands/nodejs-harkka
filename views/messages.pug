@@ -1,11 +1,12 @@
 extends layout
-
+block landingHeader
 block content
-  h1= title
+  
   //p #{result.title}
-  ul
-    each element in result
-        li 
-            a(href= " " + element._id) #{element.title}
-                | #{' '}
+  div(class="container")
+    h1= title
+    ul(class="list-group")
+      each element in result
+        a(href= "/messages/" + element._id class="list-group-item bg-dark shadow btn btn-outline-dark text-light") #{element.title}
+            | #{' '}
     

@@ -1,9 +1,23 @@
 extends layout
-
+block landingHeader
 block content
-  h1= result.title
-  p= result.content
-  p= result.author
-  p --------
-  p= result.updatedAt
+  div(class="container")
+    div(class="card-deck bg-dark")
+      div(class="card bg-dark mb-4 shadow-sm")
+        div(class="card-header")
+          h1= result.title
+        div(class="card-body")
+          p= result.content
+          p= result.author
+          p= result.updatedAt
+        div(class="card bg-dark mb-4 shadow-sm")
+          div(class="card-header")
+            p Comments:
+          div(class="card-body")
+          ul
+            each val in result.comments
+              li
+                p= val.content
+                p= val.author
+                p= val.updatedAt
 

@@ -10,6 +10,12 @@ userRouter.use(bodyParser.json());
 //routes
 //userRouter.route('/')
 
+userRouter.get('/signup', (req, res, next) =>{
+    console.log('1#-Singup');
+    res.render('signup');
+});
+
+
 // post singup
 userRouter.post('/signup', (req, res, next) =>{
     console.log('1#-Singup');
@@ -51,7 +57,7 @@ userRouter.post('/login', passport.authenticate('local',
     res.json({status: 'User logged in'});
 });
 
-userRouter.get('/google', passport.authenticate('google'),{scope: ['profile', 'email']});
+//userRouter.get('/google', passport.authenticate('google'),{scope: ['profile', 'email']});
 
 // get logout
 userRouter.get('/logout',(req, res, next)=>{

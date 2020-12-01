@@ -4,10 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const mongoose = require('mongoose');
+var session =  require('express-session');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var messagesRouter = require('./routes/messages');
+
+
 
 const port = 3000;
 const hostname = 'localhost';
@@ -38,11 +38,47 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({   
+  secret: 'Secret',
+  resave: false,
+  saveUninitialized: false
+}));
+
+const passport = require('passport');
+const authenticate = require('./authenticate');
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/userRouter');
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/messages', messagesRouter);
+
 
 // catch 404 and forward to error handler
+
+
+//Authentication
+
+function Auth(req, res, next){
+  console.log("Session data: ", req.session);
+
+  if(req.user){
+     next();
+  }
+  else{
+      var err = new Error('Not authenticated');
+      err.status = 403;
+      next(err);
+  }
+}
+
+app.use(Auth);
+
+var messagesRouter = require('./routes/messages');
+app.use('/messages', messagesRouter);
+
 app.use(function(req, res, next) {
   next(createError(404));
 });
