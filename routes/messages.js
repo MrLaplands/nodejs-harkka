@@ -1,10 +1,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 const messageRouter = express.Router();
 
 const Messages = require('../models/messages') 
 
 messageRouter.use(bodyParser.json());
+var fs = require('fs');
 
 messageRouter.route('/')
 
@@ -28,8 +30,9 @@ messageRouter.route('/')
     .then((msg)=>{
         console.log('Message created: ' + msg);
         res.status = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(msg);
+        //res.setHeader('Content-Type', 'application/json');
+        //res.json(msg);
+        res.redirect('/messages');
     });
 })
 
@@ -42,6 +45,18 @@ messageRouter.route('/')
         res.setHeader('Content-Type', 'application/json');
         res.end('Messages deleted');
     });
+});
+
+messageRouter.route('/new')
+
+.get((req, res, next) => {
+    res.render('createMessage', { title: 'Messages', session: req.user});
+});
+
+messageRouter.route('/newComment')
+
+.get((req, res, next) => {
+    res.render('createComment', { title: 'Messages'});
 });
 
 
@@ -58,18 +73,19 @@ messageRouter.route('/:messageId')
         res.setHeader('Content-Type', 'application/json');
         res.json(msg);
         */
-        res.render('message', { title: 'Messages', result: msg });
+        res.render('message', { title: 'Messages', result: msg, session: req.user });
     });
 })
 
-.delete((req, res, next) => {
+.post((req, res, next) => {
 
     Messages.findByIdAndRemove(req.params.messageId)
     .then((resp)=>{
         //console.log('Message deleted');
         res.status = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.json(resp);
+        //res.json(resp);
+        res.redirect('/messages')
     });
 })
 
@@ -116,9 +132,10 @@ messageRouter.route('/:messageId/comments')
             msg.comments.push(req.body);
             msg.save()
             .then((msg)=>{
-                res.status = 200;
-                res.setHeader('Content-Type', 'application/json');
-                res.json(msg);
+                //res.status = 200;
+                //res.setHeader('Content-Type', 'application/json');
+                //res.json(msg);
+                res.redirect('/messages/' + req.params.messageId)
             })
         }
         else{

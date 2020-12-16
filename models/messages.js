@@ -14,7 +14,7 @@ const commentSchema = new Schema({
     },
     rating:{
         type: Number,
-        required: true
+        //required: true
     }
 },{
     timestamps: true
@@ -35,6 +35,13 @@ const messageSchema = new Schema({
     author: {
         type: String,
         required: true
+    },
+    image: {
+        /*
+        data: Buffer,
+        contentType: String
+        */
+        type: String
     },
     category: {
         type: String,

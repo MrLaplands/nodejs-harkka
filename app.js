@@ -38,6 +38,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+var multer  = require('multer')
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/images/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+  }
+})
+ 
+var upload = multer({ storage: storage })
+
 app.use(session({   
   secret: 'Secret',
   resave: false,
@@ -70,7 +82,8 @@ function Auth(req, res, next){
   else{
       var err = new Error('Not authenticated');
       err.status = 403;
-      next(err);
+      //next(err);
+      res.redirect('/')
   }
 }
 

@@ -24,7 +24,8 @@ userRouter.post('/signup', (req, res, next) =>{
         if(err){
             err.status = 500;
             res.setHeader('Content-type', 'application/json');
-            res.json({err: err});
+            //res.json({err: err});
+            res.redirect('/users/signup')
         }
         else{                                      // virhe?
             passport.authenticate('local', 
