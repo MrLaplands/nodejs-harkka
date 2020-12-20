@@ -52,17 +52,18 @@ messageRouter.route('/new')
 .get((req, res, next) => {
     res.render('createMessage', { title: 'Messages', session: req.user});
 });
-
+/*
 messageRouter.route('/newComment')
 
 .get((req, res, next) => {
     res.render('createComment', { title: 'Messages'});
 });
-
+*/
 
 // -------------------------------------- MessageId ----------------------------------------
 messageRouter.route('/:messageId')
 
+//get message
 .get((req, res, next) => {
 
     Messages.findById(req.params.messageId)
@@ -77,6 +78,7 @@ messageRouter.route('/:messageId')
     });
 })
 
+//delete message
 .post((req, res, next) => {
 
     Messages.findByIdAndRemove(req.params.messageId)
@@ -87,15 +89,33 @@ messageRouter.route('/:messageId')
         //res.json(resp);
         res.redirect('/messages')
     });
+});
+
+//update message
+messageRouter.route('/:messageId/update')
+
+.get((req, res, next) => {
+
+    Messages.findById(req.params.messageId)
+    .then((msg)=>{
+        console.log('Message: ' + msg);
+        /*
+        res.status = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(msg);
+        */
+        res.render('updateMessage', { title: 'Messages', result: msg, session: req.user });
+    });
 })
 
-.put((req, res, next) => {
+.post((req, res, next) => {
     Messages.findByIdAndUpdate(req.params.messageId, req.body)
     .then((resp)=>{
         console.log('Message: ' + resp);
         res.status = 200;
-        res.setHeader('Content-Type', 'application/json');
-        res.json(resp);
+        //res.setHeader('Content-Type', 'application/json');
+        //res.json(resp);
+        res.redirect('/messages/'+ req.params.messageId);
     });
 });
 
