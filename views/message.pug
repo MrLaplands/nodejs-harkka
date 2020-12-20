@@ -10,18 +10,21 @@ block content
           p= result.content
           if result.image
             img(src=result.image class="img-responsive rounded shadow-sm")
+          br
+          hr(class="bg-secondary")
           p(class="font-weight-bold")= result.author
-          p #{prettyDate(result.updatedAt)}
+          if(result.edited == true)
+            p(class="font-italic") edited: #{prettyDate(result.updatedAt)}
+          p Created: #{prettyDate(result.createdAt)}
           if session.username == result.author
             div(class="row")
-              div(class="col-xs-6")
+              div(class="col-sm-2")
                 a(href= "/messages/" + result._id + "/update" class="btn btn-outline-info") Edit message
-              br
-              div(class="col-xs-6")
+              div(class="col-sm")
                 form(action='/messages/' + result._id, method='POST')
                   button(type="submit" class="btn btn-outline-warning") Delete message  
-                  br
-                  br
+              br
+              br
           div(class="card-body border-top border-secondary")
             div(class="form-group")
             form(action='/messages/' + result._id + '/comments', method='POST')

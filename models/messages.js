@@ -47,6 +47,10 @@ const messageSchema = new Schema({
         type: String,
         default: "default"
     },
+    edited: {
+        type: Boolean,
+        default: false
+    },
     comments: [commentSchema]
 },{
     timestamps: true

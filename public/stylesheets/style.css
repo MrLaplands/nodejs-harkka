@@ -37,4 +37,9 @@
   margin-left: 20px;
 }
 
+textarea{
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
 
